@@ -8,6 +8,8 @@
 #define MAX_SIZE 50
 #define IS_FULL(ptr) (!(ptr))
 
+#include <stdio.h>
+
 
 typedef enum { head, entry } tagfield;
 
@@ -34,7 +36,7 @@ typedef struct matrix_node {
 // LINKED LIST OPERATIONS
 matrix_pointer cmatrix_new(int row, int col, int value);
 
-matrix_pointer cmatrix_mread(void);
+matrix_pointer cmatrix_mread(FILE *fptr);
 
 void cmatrix_merase(matrix_pointer node);
 

@@ -19,7 +19,7 @@ matrix_pointer new_node(void) {
     return temp;
 }
 
-matrix_pointer cmatrix_mread(void) {
+matrix_pointer cmatrix_mread(FILE * fptr) {
     int num_rows, num_cols, num_terms, num_heads, i;
     int row, col, current_row;
     double value;
