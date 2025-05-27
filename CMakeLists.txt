@@ -15,8 +15,20 @@ target_link_libraries(test_mread PRIVATE cmatrix)
 target_include_directories(test_mread PRIVATE include)
 
 configure_file(
-        ${CMAKE_SOURCE_DIR}/test/mread/mread_input.txt
-        ${CMAKE_BINARY_DIR}/mread_input.txt
+        ${CMAKE_SOURCE_DIR}/test/mread/mread_input_0.txt
+        ${CMAKE_BINARY_DIR}/mread_input_0.txt
+        COPYONLY
+)
+
+configure_file(
+        ${CMAKE_SOURCE_DIR}/test/mread/mread_input_1.txt
+        ${CMAKE_BINARY_DIR}/mread_input_1.txt
+        COPYONLY
+)
+
+configure_file(
+        ${CMAKE_SOURCE_DIR}/test/mread/mread_input_2.txt
+        ${CMAKE_BINARY_DIR}/mread_input_2.txt
         COPYONLY
 )
 
