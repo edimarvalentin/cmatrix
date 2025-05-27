@@ -4,9 +4,6 @@
 
 #include "../include/cmatrix.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
 matrix_pointer head_node[MAX_SIZE];
 
 matrix_pointer new_node(void) {
@@ -19,14 +16,17 @@ matrix_pointer new_node(void) {
     return temp;
 }
 
-matrix_pointer cmatrix_mread(void) {
+matrix_pointer cmatrix_mread(FILE *fptr) {
     int num_rows, num_cols, num_terms, num_heads, i;
     int row, col, current_row;
     double value;
     matrix_pointer temp, last, node;
 
-    printf("Enter number the number of rows, columns, and number of nonzero terms: ");
-    scanf("%d%d%d", &num_rows, &num_cols, &num_terms);
+
+    if (fscanf(fptr, "%d%d%d%*[^\n]", &num_rows, &num_cols, &num_terms) != 3) {
+        fprintf(stderr, "Error reading file: Invalid input format.\n");
+        exit(1);
+    }
 
     num_heads = (num_cols > num_rows) ? num_cols : num_rows;
 
@@ -44,11 +44,16 @@ matrix_pointer cmatrix_mread(void) {
             head_node[i]->right = temp;
             head_node[i]->u.next = temp;
         }
+
         current_row = 0;
         last = head_node[0];
+
         for (i = 0; i < num_terms; i++) {
-            printf("Enter row, column, and nonzero term: ");
-            scanf("%d%d%lf", &row, &col, &value);
+            if (fscanf(fptr, "%d%d%lf", &row, &col, &value) != 3) {
+                fprintf(stderr, "Error reading file: Invalid input format.\n");
+                exit(1);
+            }
+
             if (row > current_row) {
                 last->right = head_node[current_row];
                 current_row = row;
@@ -69,10 +74,13 @@ matrix_pointer cmatrix_mread(void) {
         }
 
         last->right = head_node[current_row];
+
         for (i = 0; i < num_cols; i++)
             head_node[i]->u.next->down = head_node[i];
+
         for (i = 0; i < num_heads - 1; i++)
             head_node[i]->u.next = head_node[i + 1];
+
         head_node[num_heads - 1]->u.next = node;
         node->right = head_node[0];
     }
@@ -90,4 +98,29 @@ void cmatrix_mwrite(const matrix_pointer node) {
             printf("%5d%5d%10.4f \n", temp->u.entry.row, temp->u.entry.col, temp->u.entry.value);
         head = head->u.next;
     }
+}
+
+void cmatrix_merase(matrix_pointer *node) {
+    matrix_pointer x, y, head = (*node)->right;
+    int i;
+
+    for (i = 0; i < (*node)->u.entry.row; i++) {
+        y = head->right;
+        while (y != head) {
+            x = y;
+            y = y->right;
+            free(x);
+        }
+        x = head;
+        head = head->u.next;
+        free(x);
+    }
+    y = head;
+    while (y != *node) {
+        x = y;
+        y = y->u.next;
+        free(x);
+    }
+    free(*node);
+    *node = NULL;
 }
