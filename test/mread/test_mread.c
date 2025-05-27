@@ -25,22 +25,28 @@ void compare(matrix_pointer matrix, FILE *input_file) {
     matrix_pointer head = matrix->right;
     matrix_pointer temp;
 
+    // Read all entries into memory
+    fscanf(input_file, "%d%d%d%*[^\n]", &num_rows, &num_cols, &num_terms); // Read header
+    struct {
+        int row, col;
+        double value;
+    } entries[num_terms];
+
+    for (j = 0; j < num_terms; j++) {
+        if (fscanf(input_file, "%d%d%lf", &entries[j].row, &entries[j].col, &entries[j].value) != 3) {
+            fprintf(stderr, "Error reading entry from file.\n");
+            exit(1);
+        }
+    }
+
     for (i = 0; i < matrix->u.entry.row; i++) {
         for (temp = head->right; temp != head; temp = temp->right) {
-            rewind(input_file);
-            fscanf(input_file, "%d%d%d%*[^\n]", &num_rows, &num_cols, &num_terms); // skip header
-
             int found = 0;
             for (j = 0; j < num_terms; j++) {
-                if (fscanf(input_file, "%d%d%lf", &row, &col, &value) != 3) {
-                    fprintf(stderr, "Error reading entry from file.\n");
-                    exit(1);
-                }
-
-                if (row == temp->u.entry.row && col == temp->u.entry.col) {
-                    if (value != temp->u.entry.value) {
+                if (entries[j].row == temp->u.entry.row && entries[j].col == temp->u.entry.col) {
+                    if (entries[j].value != temp->u.entry.value) {
                         fprintf(stderr, "Value mismatch at (%d,%d): matrix=%lf, file=%lf\n",
-                                row, col, temp->u.entry.value, value);
+                                entries[j].row, entries[j].col, temp->u.entry.value, entries[j].value);
                         exit(1);
                     }
                     found = 1;
