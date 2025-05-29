@@ -9,12 +9,11 @@
 #define IS_FULL(ptr) (!(ptr))
 
 #include <stdio.h>
-#include <stdlib.h>
 
 
 typedef enum { head, entry } tagfield;
 
-typedef struct matrix_node *matrix_pointer;
+typedef struct matrix_node *sparse_node;
 
 typedef struct entry_node {
     int row;
@@ -23,28 +22,28 @@ typedef struct entry_node {
 } entry_node;
 
 typedef struct matrix_node {
-    matrix_pointer down; // head: links to a column list; entry: next nonzero term in column
-    matrix_pointer right; // head: links to a row list; entry: next nonzero term in row
+    sparse_node down; // head: links to a column list; entry: next nonzero term in column
+    sparse_node right; // head: links to a row list; entry: next nonzero term in row
     tagfield tag;
 
     union {
-        matrix_pointer next;
+        sparse_node next;
         entry_node entry;
     } u;
 } matrix_node;
 
 
 // LINKED LIST OPERATIONS
-matrix_pointer cmatrix_new(int row, int col, int value);
+sparse_node cmatrix_new(int row, int col, int value);
 
-matrix_pointer cmatrix_mread(FILE *fptr);
+sparse_node cmatrix_mread(FILE *fptr);
 
-void cmatrix_merase(matrix_pointer *node);
+void cmatrix_merase(sparse_node *node);
 
-void cmatrix_mwrite(matrix_pointer node);
+void cmatrix_mwrite(sparse_node node);
 
 
-// MATRIX OPERATIONS
+// SPARSE MATRIX OPERATIONS
 
 
 #endif //CMATRIX_H

@@ -3,7 +3,9 @@ project(cmatrix C)
 
 set(CMAKE_C_STANDARD 90)
 
-add_library(cmatrix STATIC src/cmatrix.c)
+add_library(cmatrix STATIC src/sparse.c
+        src/dense.c
+)
 target_include_directories(cmatrix PUBLIC include)
 
 # Enable testing

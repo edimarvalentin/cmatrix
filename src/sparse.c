@@ -2,13 +2,15 @@
 // Created by evalentin on 22/05/25.
 //
 
-#include "../include/cmatrix.h"
+#include "cmatrix.h"
+#include <stdlib.h>
 
-matrix_pointer head_node[MAX_SIZE];
 
-matrix_pointer new_node(void) {
-    matrix_pointer temp;
-    temp = (matrix_pointer) malloc(sizeof(matrix_node));
+sparse_node head_node[MAX_SIZE];
+
+sparse_node new_node(void) {
+    sparse_node temp;
+    temp = (sparse_node) malloc(sizeof(matrix_node));
     if (IS_FULL(temp)) {
         fprintf(stderr, "Matrix allocation failed: Memory is full\n");
         exit(1);
@@ -16,11 +18,11 @@ matrix_pointer new_node(void) {
     return temp;
 }
 
-matrix_pointer cmatrix_mread(FILE *fptr) {
+sparse_node cmatrix_mread(FILE *fptr) {
     int num_rows, num_cols, num_terms, num_heads, i;
     int row, col, current_row;
     double value;
-    matrix_pointer temp, last, node;
+    sparse_node temp, last, node;
 
 
     if (fscanf(fptr, "%d%d%d%*[^\n]", &num_rows, &num_cols, &num_terms) != 3) {
@@ -87,9 +89,9 @@ matrix_pointer cmatrix_mread(FILE *fptr) {
     return node;
 }
 
-void cmatrix_mwrite(const matrix_pointer node) {
+void cmatrix_mwrite(const sparse_node node) {
     int i;
-    matrix_pointer temp, head = node->right;
+    sparse_node temp, head = node->right;
     printf(" \n num_rows = %d, num_cols  = %d \n", node->u.entry.row, node->u.entry.col);
     printf(" The matrix by row, column and value: \n\n");
     printf("\n%5s %5s %10s\n", "Row", "Col", "Value");
@@ -100,8 +102,8 @@ void cmatrix_mwrite(const matrix_pointer node) {
     }
 }
 
-void cmatrix_merase(matrix_pointer *node) {
-    matrix_pointer x, y, head = (*node)->right;
+void cmatrix_merase(sparse_node *node) {
+    sparse_node x, y, head = (*node)->right;
     int i;
 
     for (i = 0; i < (*node)->u.entry.row; i++) {

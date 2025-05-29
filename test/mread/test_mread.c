@@ -12,7 +12,7 @@
 #define EPSILON 1e-6
 
 
-void compare(matrix_pointer matrix, FILE *input_file) {
+void compare(sparse_node matrix, FILE *input_file) {
     int num_rows, num_cols, num_terms;
     int row, col;
     double value;
@@ -38,13 +38,13 @@ void compare(matrix_pointer matrix, FILE *input_file) {
         }
 
         // Locate head node for this row
-        matrix_pointer head = matrix->right;
+        sparse_node head = matrix->right;
         int r;
         for (r = 0; r < row; r++)
             head = head->u.next;
 
         int found = 0;
-        matrix_pointer temp;
+        sparse_node temp;
 
         for (temp = head->right; temp != head; temp = temp->right) {
             if (temp->u.entry.col == col) {
@@ -80,7 +80,7 @@ int main() {
             exit(1);
         }
 
-        matrix_pointer matrix = cmatrix_mread(input_file);
+        sparse_node matrix = cmatrix_mread(input_file);
         rewind(input_file);
         compare(matrix, input_file);
         cmatrix_merase(&matrix);
