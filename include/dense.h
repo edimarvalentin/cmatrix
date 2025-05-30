@@ -15,4 +15,6 @@ typedef struct {
 dense_matrix cmatrix_dense(FILE *fptr);
 
 void cmatrix_dense_mwrite(dense_matrix matrix);
+
+void cmatrix_dense_merase(dense_matrix matrix);
 #endif //DENSE_H

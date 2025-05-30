@@ -84,7 +84,7 @@ int main() {
         rewind(input_file);
         compare(matrix, input_file);
         fclose(input_file);
-        cmatrix_merase(&matrix);
+        cmatrix_sparse_merase(&matrix);
     }
 
 

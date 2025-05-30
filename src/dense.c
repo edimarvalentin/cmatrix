@@ -62,3 +62,12 @@ void cmatrix_dense_mwrite(dense_matrix matrix) {
         }
     }
 }
+
+void cmatrix_dense_merase(dense_matrix matrix) {
+    int i;
+    for (i = 0; i < matrix.num_rows; i++) {
+        free(matrix.head[i]);
+    }
+    free(matrix.head);
+    matrix.head = NULL;
+}

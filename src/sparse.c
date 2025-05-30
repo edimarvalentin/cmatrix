@@ -102,7 +102,7 @@ void cmatrix_sparse_mwrite(const sparse_node node) {
     }
 }
 
-void cmatrix_merase(sparse_node *node) {
+void cmatrix_sparse_merase(sparse_node *node) {
     sparse_node x, y, head = (*node)->right;
     int i;
 

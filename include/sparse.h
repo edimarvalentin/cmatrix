@@ -37,7 +37,7 @@ sparse_node cmatrix_new(int row, int col, int value);
 
 sparse_node cmatrix_sparse(FILE *fptr);
 
-void cmatrix_merase(sparse_node *node);
+void cmatrix_sparse_merase(sparse_node *node);
 
 void cmatrix_sparse_mwrite(sparse_node node);
 #endif //SPARSE_H
