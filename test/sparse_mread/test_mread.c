@@ -69,10 +69,10 @@ void compare(sparse_node matrix, FILE *input_file) {
 
 int main() {
     int i;
-    char filename[] = "mread_input_#.txt"; // # -> char 12
+    char filename[] = "sparse_mread_input_#.txt"; // # -> char 19
 
     for (i = 0; i < NUMBER_OF_TESTS; i++) {
-        filename[12] = i + '0';
+        filename[19] = i + '0';
         FILE *input_file = fopen(filename, "r");
 
         if (!input_file) {
@@ -80,9 +80,10 @@ int main() {
             exit(1);
         }
 
-        sparse_node matrix = cmatrix_mread(input_file);
+        sparse_node matrix = cmatrix_sparse(input_file);
         rewind(input_file);
         compare(matrix, input_file);
+        fclose(input_file);
         cmatrix_merase(&matrix);
     }
 

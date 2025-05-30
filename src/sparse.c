@@ -2,7 +2,7 @@
 // Created by evalentin on 22/05/25.
 //
 
-#include "cmatrix.h"
+#include "sparse.h"
 #include <stdlib.h>
 
 
@@ -12,13 +12,13 @@ sparse_node new_node(void) {
     sparse_node temp;
     temp = (sparse_node) malloc(sizeof(matrix_node));
     if (IS_FULL(temp)) {
-        fprintf(stderr, "Matrix allocation failed: Memory is full\n");
+        fprintf(stderr, "Sparse Matrix allocation failed: Memory is full\n");
         exit(1);
     }
     return temp;
 }
 
-sparse_node cmatrix_mread(FILE *fptr) {
+sparse_node cmatrix_sparse(FILE *fptr) {
     int num_rows, num_cols, num_terms, num_heads, i;
     int row, col, current_row;
     double value;
@@ -89,7 +89,7 @@ sparse_node cmatrix_mread(FILE *fptr) {
     return node;
 }
 
-void cmatrix_mwrite(const sparse_node node) {
+void cmatrix_sparse_mwrite(const sparse_node node) {
     int i;
     sparse_node temp, head = node->right;
     printf(" \n num_rows = %d, num_cols  = %d \n", node->u.entry.row, node->u.entry.col);
