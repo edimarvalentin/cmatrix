@@ -41,8 +41,8 @@ Each `mread_input_*.txt` file must follow this format:
 ```
 3 3
 0 1 5.0
-1 0 7.5
-2 2 -2.0
+2 2 -2.01 0 7.5
+
 ```
 
 This represents a 3x3 matrix with 3 non-zero terms:
