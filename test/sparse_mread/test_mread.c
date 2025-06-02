@@ -11,8 +11,32 @@
 #define NUMBER_OF_TESTS 3
 #define EPSILON 1e-6
 
-
-void compare(matrix_pointer matrix, FILE *input_file) {
+/**
+ * @brief Compares a sparse matrix with matrix data from a file.
+ *
+ * Reads matrix dimensions and non-zero entries from the input file and compares
+ * each entry with the corresponding element in the provided sparse matrix. Exits
+ * with an error if:
+ * - The matrix dimensions do not match.
+ * - An entry from the file does not match the corresponding entry in the matrix.
+ * - An entry from the file is missing in the matrix.
+ *
+ * Input file format:
+    @code
+    <num_rows> <num_cols> <num_terms>
+    <row_index> <col_index> <value>
+    <row_index> <col_index> <value>
+    ...
+    @endcode
+ *
+ * @param matrix The header node of the sparse matrix to compare against.
+ *               It is assumed to represent the matrix with row and column counts
+ *               and cross-linked entries.
+ * @param input_file FILE pointer to the input file opened for reading.
+ *                   Expects the file to contain matrix metadata and non-zero entries.
+ *
+ */
+void compare(sparse_node matrix, FILE *input_file) {
     int num_rows, num_cols, num_terms;
     int row, col;
     double value;
@@ -38,13 +62,13 @@ void compare(matrix_pointer matrix, FILE *input_file) {
         }
 
         // Locate head node for this row
-        matrix_pointer head = matrix->right;
+        sparse_node head = matrix->right;
         int r;
         for (r = 0; r < row; r++)
             head = head->u.next;
 
         int found = 0;
-        matrix_pointer temp;
+        sparse_node temp;
 
         for (temp = head->right; temp != head; temp = temp->right) {
             if (temp->u.entry.col == col) {
@@ -69,10 +93,10 @@ void compare(matrix_pointer matrix, FILE *input_file) {
 
 int main() {
     int i;
-    char filename[] = "mread_input_#.txt"; // # -> char 12
+    char filename[] = "sparse_mread_input_#.txt"; // # -> char 19
 
     for (i = 0; i < NUMBER_OF_TESTS; i++) {
-        filename[12] = i + '0';
+        filename[19] = i + '0';
         FILE *input_file = fopen(filename, "r");
 
         if (!input_file) {
@@ -80,10 +104,11 @@ int main() {
             exit(1);
         }
 
-        matrix_pointer matrix = cmatrix_mread(input_file);
+        sparse_node matrix = cmatrix_sparse(input_file);
         rewind(input_file);
         compare(matrix, input_file);
-        cmatrix_merase(&matrix);
+        fclose(input_file);
+        cmatrix_sparse_merase(&matrix);
     }
 
 

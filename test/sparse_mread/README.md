@@ -1,4 +1,4 @@
-# 📚 CTest Suite for `cmatrix_mread(FILE *fptr)`
+# 📚 CTest Suite for `cmatrix_sparse_mread(FILE *fptr)`
 
 This directory contains a test suite for verifying the functionality of `cmatrix_mread`, a function that reads
 matrix data from a file and constructs a linked list matrix representation.
@@ -7,11 +7,12 @@ matrix data from a file and constructs a linked list matrix representation.
 
 ## 🧪 Test Overview
 
-- **Function Under Test:** `cmatrix_mread(FILE *fptr)`
-- **Test Executable:** `test_mread`
-- **Test Framework:
-  ** [CTest](https://cmake.org/cmake/help/book/mastering-cmake/chapter/Testing%20With%20CMake%20and%20CTest.html)
-- **Test Files:** Located in `test/mread`, named `mread_input_0.txt`, `mread_input_1.txt`, and so on as necessary. These
+- **Function Under Test:** `cmatrix_sparse_mread(FILE *fptr)`
+- **Test Executable:** `test_sparse_mread`
+- **Test Framework:**
+  [CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html)
+- **Test Files:** Located in `test/sparse_mread`, named `mread_input_0.txt`, `mread_input_1.txt`, and so on as
+  necessary. These
   files have to be copied
   to the build directory by specifying it in `CMakeLists.txt`. Otherwise, the executable won't find them.
 
@@ -50,15 +51,20 @@ Each `mread_input_*.txt` file must follow this format:
 This represents a 3x3 matrix with 3 non-zero terms:
 $\begin{bmatrix}0 &5.0 & 0\\7.5 & 0 & 0\\0&0 &-2.0 \end{bmatrix}$
 
+---
+
 ## 🔍 Test Details
 
 - **Matrix Dimensions Check**: Ensures the number of rows and columns in the matrix match the header in the input file.
-- **Non-Zero Entry Validation**: or each entry in the input file, it verifies that the corresponding entry exists in the
+- **Non-Zero Entry Validation**: Verifies that the corresponding entry exists in the
   matrix and that the value matches.
 - **Floating-Point Tolerance**: Uses EPSILON (e.g., 1e-6) to allow for minor floating-point differences when comparing.
 
+---
+
 ## ⚠️ Notes
 
-- The number of input files is set by the `NUMBER_OF_TESTS` macro in test_mread.c. Update this if you add more files.
-- This test, as written, can only handle up to 9 files (`mread_input_0.txt` to `mread_input_9.txt`). This will be addressed
+- The number of input files is set by the `NUMBER_OF_TESTS` macro in `test_mread.c`. Update this if you add more files.
+- This test, as written, can only handle up to 10 files (`mread_input_0.txt` to `mread_input_9.txt`). This will be
+  addressed
   in the future as we need to cover more cases.
