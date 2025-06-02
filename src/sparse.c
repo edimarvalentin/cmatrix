@@ -8,6 +8,13 @@
 
 sparse_node head_node[MAX_SIZE];
 
+/**
+ * @brief  Creates a new node for a sparse matrix data structure.
+ *
+ * Calls on malloc to find and allocate memory for a node that should be appended or
+ * inserted unto a linked list of sparse matrix nodes.
+ * @return sparse_node - A new node allocated in memory.
+ */
 sparse_node new_node(void) {
     sparse_node temp;
     temp = (sparse_node) malloc(sizeof(matrix_node));
@@ -18,6 +25,24 @@ sparse_node new_node(void) {
     return temp;
 }
 
+/**
+ * @brief Construct a sparse matrix from a file input.
+ *
+ * Reads matrix dimensions and non-zero entries from the provided file pointer
+ * and constructs a sparse matrix using linked lists.
+ * Input file format:
+    @code
+    <num_rows> <num_cols> <num_non_zero_terms>
+    <row_index> <col_index> <value>
+    <row_index> <col_index> <value>
+    ...
+    @endcode
+
+ * @param fptr FILE pointer to the input file, assumed to be opened for reading.
+ * Expects matrix size and terms in the specified format.
+ * @return sparse_node - The head node of the constructed sparse matrix.
+ *
+ */
 sparse_node cmatrix_sparse(FILE *fptr) {
     int num_rows, num_cols, num_terms, num_heads, i;
     int row, col, current_row;
@@ -89,6 +114,19 @@ sparse_node cmatrix_sparse(FILE *fptr) {
     return node;
 }
 
+/**
+ * @brief Prints the sparse matrix in a readable format.
+ *
+ * This function traverses the sparse matrix starting from the provided
+ * node, expected to be the header node of the matrix, and
+ * prints the matrix's dimensions, followed by
+ * the row, column, and value of each non-zero entry.
+ *
+ * @param node The header node of the sparse matrix.
+ *             The node is expected to contain matrix dimensions and
+ *             cross-linked entries representing non-zero values.
+ *
+ */
 void cmatrix_sparse_mwrite(const sparse_node node) {
     int i;
     sparse_node temp, head = node->right;
@@ -102,6 +140,18 @@ void cmatrix_sparse_mwrite(const sparse_node node) {
     }
 }
 
+/**
+ * @brief Deallocates all memory associated with a sparse matrix.
+ *
+ * This function frees the memory allocated for a sparse matrix,
+ * including all row and column header nodes and entry nodes.
+ * After deallocation, the provided pointer is set to NULL to
+ * prevent dangling pointers.
+ *
+ * @param node A pointer to the header node of the sparse matrix.
+ *                     After execution, the pointer is set to NULL.
+ *
+ */
 void cmatrix_sparse_merase(sparse_node *node) {
     sparse_node x, y, head = (*node)->right;
     int i;

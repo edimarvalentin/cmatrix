@@ -11,7 +11,31 @@
 #define NUMBER_OF_TESTS 3
 #define EPSILON 1e-6
 
-
+/**
+ * @brief Compares a sparse matrix with matrix data from a file.
+ *
+ * Reads matrix dimensions and non-zero entries from the input file and compares
+ * each entry with the corresponding element in the provided sparse matrix. Exits
+ * with an error if:
+ * - The matrix dimensions do not match.
+ * - An entry from the file does not match the corresponding entry in the matrix.
+ * - An entry from the file is missing in the matrix.
+ *
+ * Input file format:
+    @code
+    <num_rows> <num_cols> <num_terms>
+    <row_index> <col_index> <value>
+    <row_index> <col_index> <value>
+    ...
+    @endcode
+ *
+ * @param matrix The header node of the sparse matrix to compare against.
+ *               It is assumed to represent the matrix with row and column counts
+ *               and cross-linked entries.
+ * @param input_file FILE pointer to the input file opened for reading.
+ *                   Expects the file to contain matrix metadata and non-zero entries.
+ *
+ */
 void compare(sparse_node matrix, FILE *input_file) {
     int num_rows, num_cols, num_terms;
     int row, col;

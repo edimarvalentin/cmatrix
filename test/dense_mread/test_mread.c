@@ -9,7 +9,29 @@
 #define NUMBER_OF_TESTS 3
 #define EPSILON 1e-6
 
-
+/**
+ * @brief Compares a dense matrix with matrix data from a file.
+ *
+ * This function reads matrix dimensions and entries from an input file, constructs
+ * a local representation of the matrix, and compares each element against the
+ * provided dense matrix. The function exits with an error if:
+ * - The dimensions of the matrix and file data do not match.
+ * - Any matrix element differs by more than a defined EPSILON tolerance.
+ *
+ * Input file format:
+    @code
+    <num_rows> <num_cols>
+    <row_index> <col_index> <value>
+    <row_index> <col_index> <value>
+    ...
+    @endcode
+ *
+ * @param matrix The dense matrix structure to compare against.
+ *               It is assumed that matrix.head points to a valid two-dimensional array.
+ * @param input_file The input FILE pointer opened for reading.
+ *                   Must contain matrix dimensions and entries in the specified format.
+ *
+ */
 void compare(dense_matrix matrix, FILE *input_file) {
     int num_rows, num_cols;
     int row, col, i, j;

@@ -4,8 +4,30 @@
 
 #include "dense.h"
 #include <stdlib.h>
-// i = row
-// j = column
+
+/**
+ * @brief Constructs a dense matrix from a file input.
+ *
+ * Reads matrix dimensions and non-zero entries from the provided file pointer.
+ * Allocates memory for a two-dimensional array of doubles, initializes
+ * entries, and populates them with the specified values.
+ *
+ * Input file format:
+    @code
+    <num_rows> <num_cols>
+    <row_index> <col_index> <value>
+    <row_index> <col_index> <value>
+    ...
+    @endcode
+ *
+ * @param fptr FILE pointer to the input file, assumed to be opened for reading.
+ * Expects matrix size and terms in the specified format.
+ *
+ * @return dense_matrix The constructed dense matrix structure containing:
+ *                      - Number of rows and columns.
+ *                      - A pointer to the allocated two-dimensional array.
+ *
+ */
 dense_matrix cmatrix_dense(FILE *fptr) {
     int num_rows, nums_cols;
     int row, col;
@@ -50,6 +72,16 @@ dense_matrix cmatrix_dense(FILE *fptr) {
     return a;
 }
 
+/**
+ * @brief Prints the dense matrix in a readable format.
+ *
+ * This function prints the dimensions of the provided
+ * dense matrix, followed by a formatted list of each element’s row index, column index,
+ * and value.
+ *
+ * @param matrix The dense matrix structure to print.
+ *
+ */
 void cmatrix_dense_mwrite(dense_matrix matrix) {
     int i, j;
     printf(" \n num_rows = %d, num_cols  = %d \n", matrix.num_rows, matrix.num_cols);
@@ -63,6 +95,18 @@ void cmatrix_dense_mwrite(dense_matrix matrix) {
     }
 }
 
+/**
+ * @brief Deallocates all memory associated with a dense matrix.
+ *
+ * Frees the memory allocated for the dense matrix's two-dimensional array, including all rows.
+ * After deallocation, the matrix's head pointer is set to NULL to prevent dangling
+ * references.
+ *
+ * @param matrix The dense matrix structure whose memory is to be freed.
+ *                       It is assumed that matrix.head points to dynamically allocated
+ *                       memory and that matrix.num_rows specifies the correct number of rows.
+ *
+ */
 void cmatrix_dense_merase(dense_matrix matrix) {
     int i;
     for (i = 0; i < matrix.num_rows; i++) {
