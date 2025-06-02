@@ -17,4 +17,6 @@ dense_matrix cmatrix_dense(FILE *fptr);
 void cmatrix_dense_mwrite(dense_matrix matrix);
 
 void cmatrix_dense_merase(dense_matrix *matrix);
+
+dense_matrix cmatrix_dense_add(dense_matrix *a, dense_matrix *b);
 #endif //DENSE_H

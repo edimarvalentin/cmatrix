@@ -115,3 +115,49 @@ void cmatrix_dense_merase(dense_matrix *matrix) {
     free(matrix->head);
     matrix->head = NULL;
 }
+
+
+dense_matrix cmatrix_dense_add(dense_matrix *a, dense_matrix *b) {
+    if (a->num_rows != b->num_rows) {
+        fprintf(stderr, "Matrix Addition Failed: number of rows don't match");
+        exit(1);
+    }
+    if (a->num_cols != b->num_cols) {
+        fprintf(stderr, "Matrix Addition Failed: number of columns don't match");
+        exit(1);
+    }
+
+    int num_rows = a->num_rows;
+    int num_cols = a->num_cols;
+    int i, j;
+
+    double **rows = (double **) malloc(sizeof(double *) * num_rows);
+
+    if (rows == NULL) {
+        fprintf(stderr, "Dense Matrix Allocation failed: Memory is full\n");
+        exit(1);
+    }
+
+    for (i = 0; i < num_rows; i++) {
+        rows[i] = (double *) malloc(sizeof(double) * num_cols);
+        if (rows[i] == NULL) {
+            fprintf(stderr, "Dense Matrix Allocation failed: No memory for row %d.\n", i);
+            int m;
+            for (m = 0; m < i; m++) {
+                free(rows[m]);
+            }
+            free(rows);
+            exit(1);
+        }
+        for (j = 0; j < num_cols; j++) {
+            rows[i][j] = a->head[i][j] + b->head[i][j];
+        }
+    }
+
+    dense_matrix c;
+    c.num_rows = num_rows;
+    c.num_cols = num_cols;
+    c.head = rows;
+
+    return c;
+}
