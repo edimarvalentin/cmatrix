@@ -33,7 +33,7 @@ Each `mread_input_*.txt` file must follow this format:
 - `<num_cols>`: Number of columns in the matrix (Integer)
 - Each entry consists of:
     - `<row_index>`: The row index (0-based, Integer)
-    - `<col_index`: The column index (0-based, Integer)
+    - `<col_index>`: The column index (0-based, Integer)
     - `value`: The non-zero value at the given position (Double)
 
 ### For example:
