@@ -95,7 +95,7 @@ int main() {
         fclose(input_file);
         input_file = NULL;
 
-        cmatrix_dense_merase(matrix);
+        cmatrix_dense_merase(&matrix);
     }
     return 0;
 }

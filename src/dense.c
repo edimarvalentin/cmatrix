@@ -107,11 +107,11 @@ void cmatrix_dense_mwrite(dense_matrix matrix) {
  *                       memory and that matrix.num_rows specifies the correct number of rows.
  *
  */
-void cmatrix_dense_merase(dense_matrix matrix) {
+void cmatrix_dense_merase(dense_matrix *matrix) {
     int i;
-    for (i = 0; i < matrix.num_rows; i++) {
-        free(matrix.head[i]);
+    for (i = 0; i < matrix->num_rows; i++) {
+        free(matrix->head[i]);
     }
-    free(matrix.head);
-    matrix.head = NULL;
+    free(matrix->head);
+    matrix->head = NULL;
 }
