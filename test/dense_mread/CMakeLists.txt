@@ -1,7 +1,7 @@
 # Test executable for mread
 add_executable(test_dense_mread test_mread.c)
 target_link_libraries(test_dense_mread PRIVATE cmatrix)
-target_include_directories(test_dense_mread PRIVATE include)
+target_include_directories(test_dense_mread PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 configure_file(
         mread_input_0.txt
