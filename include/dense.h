@@ -12,9 +12,14 @@ typedef struct {
     int num_cols;
 } dense_matrix;
 
-dense_matrix cmatrix_dense(FILE *fptr);
+
+dense_matrix cmatrix_dense_from_dim(int rows, int cols);
+
+dense_matrix cmatrix_dense_from_file(FILE *fptr);
 
 void cmatrix_dense_mwrite(dense_matrix matrix);
 
 void cmatrix_dense_merase(dense_matrix *matrix);
+
+dense_matrix cmatrix_add(dense_matrix a, dense_matrix b);
 #endif //DENSE_H

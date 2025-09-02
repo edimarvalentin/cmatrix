@@ -7,6 +7,7 @@ add_library(cmatrix STATIC src/sparse.c
         src/dense.c
         include/sparse.h
         include/dense.h
+        src/add.c
 )
 target_include_directories(cmatrix PUBLIC include)
 

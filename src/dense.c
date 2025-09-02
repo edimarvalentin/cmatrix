@@ -5,6 +5,41 @@
 #include "dense.h"
 #include <stdlib.h>
 
+
+dense_matrix cmatrix_dense_from_dim(int num_rows, int num_cols)
+{
+    double** rows = malloc(sizeof(double*) * num_rows);
+    if (rows == NULL)
+    {
+        fprintf(stderr, "Dense Matrix allocation failed: Memory is full\n");
+        exit(1);
+    }
+
+    int k;
+    for (k = 0; k < num_rows; k++)
+    {
+        rows[k] = malloc(sizeof(double) * num_cols);
+        if (rows[k] == NULL)
+        {
+            fprintf(stderr, "Dense Matrix allocation failed: No memory for row %d.\n", k);
+            // free previously allocated rows
+            int m;
+            for (m = 0; m < k; m++)
+            {
+                free(rows[m]);
+            }
+            free(rows);
+            exit(1);
+        }
+    }
+
+    dense_matrix c;
+    c.num_rows = num_rows;
+    c.num_cols = num_cols;
+    c.head = rows;
+    return c;
+}
+
 /**
  * @brief Constructs a dense matrix from a file input.
  *
@@ -28,30 +63,36 @@
  *                      - A pointer to the allocated two-dimensional array.
  *
  */
-dense_matrix cmatrix_dense(FILE *fptr) {
-    int num_rows, nums_cols;
+dense_matrix cmatrix_dense_from_file(FILE* fptr)
+{
+    int num_rows, num_cols;
     int row, col;
     double value;
 
-    if (fscanf(fptr, "%d%d%*[^\n]", &num_rows, &nums_cols) != 2) {
+    if (fscanf(fptr, "%d%d%*[^\n]", &num_rows, &num_cols) != 2)
+    {
         fprintf(stderr, "Error reading file: Invalid input format. \n");
         exit(1);
     }
 
-    double **rows = (double **) malloc(sizeof(double *) * num_rows);
-    if (rows == NULL) {
+    double** rows = malloc(sizeof(double*) * num_rows);
+    if (rows == NULL)
+    {
         fprintf(stderr, "Dense Matrix allocation failed: Memory is full\n");
         exit(1);
     }
 
     int k;
-    for (k = 0; k < num_rows; k++) {
-        rows[k] = (double *) malloc(sizeof(double) * nums_cols);
-        if (rows[k] == NULL) {
+    for (k = 0; k < num_rows; k++)
+    {
+        rows[k] = (double*)malloc(sizeof(double) * num_cols);
+        if (rows[k] == NULL)
+        {
             fprintf(stderr, "Dense Matrix allocation failed: No memory for row %d.\n", k);
             // free previously allocated rows
             int m;
-            for (m = 0; m < k; m++) {
+            for (m = 0; m < k; m++)
+            {
                 free(rows[m]);
             }
             free(rows);
@@ -60,13 +101,14 @@ dense_matrix cmatrix_dense(FILE *fptr) {
     }
 
 
-    while (fscanf(fptr, "%d%d%lf", &row, &col, &value) == 3) {
+    while (fscanf(fptr, "%d%d%lf", &row, &col, &value) == 3)
+    {
         rows[row][col] = value;
     }
 
     dense_matrix a;
     a.num_rows = num_rows;
-    a.num_cols = nums_cols;
+    a.num_cols = num_cols;
     a.head = rows;
 
     return a;
@@ -82,14 +124,17 @@ dense_matrix cmatrix_dense(FILE *fptr) {
  * @param matrix The dense matrix structure to print.
  *
  */
-void cmatrix_dense_mwrite(dense_matrix matrix) {
+void cmatrix_dense_mwrite(dense_matrix matrix)
+{
     int i, j;
     printf(" \n num_rows = %d, num_cols  = %d \n", matrix.num_rows, matrix.num_cols);
     printf(" The matrix by row, column and value: \n\n");
     printf("\n%5s %5s %10s\n", "Row", "Col", "Value");
 
-    for (i = 0; i < matrix.num_rows; i++) {
-        for (j = 0; j < matrix.num_cols; j++) {
+    for (i = 0; i < matrix.num_rows; i++)
+    {
+        for (j = 0; j < matrix.num_cols; j++)
+        {
             printf("%5d%5d%10.4f \n", i, j, matrix.head[i][j]);
         }
     }
@@ -107,9 +152,11 @@ void cmatrix_dense_mwrite(dense_matrix matrix) {
  *                       memory and that matrix.num_rows specifies the correct number of rows.
  *
  */
-void cmatrix_dense_merase(dense_matrix *matrix) {
+void cmatrix_dense_merase(dense_matrix* matrix)
+{
     int i;
-    for (i = 0; i < matrix->num_rows; i++) {
+    for (i = 0; i < matrix->num_rows; i++)
+    {
         free(matrix->head[i]);
     }
     free(matrix->head);
