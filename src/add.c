@@ -6,7 +6,12 @@
 #include "dense.h"
 #include "sparse.h"
 
-
+/**
+ *
+ * @param a Dense Matrix
+ * @param b Dense Matrix
+ * @return
+ */
 dense_matrix cmatrix_add(dense_matrix a, dense_matrix b)
 {
     if (a.num_rows != b.num_rows)
@@ -21,7 +26,9 @@ dense_matrix cmatrix_add(dense_matrix a, dense_matrix b)
 
     // They are equal. Allocate memory for a new dense_matrix. O(n) space complexity
 
-    // Add matrices, element wise. O(n) time complexity
+    dense_matrix c = cmatrix_dense_from_dim(a.num_rows, a.num_cols);
+
+    // Add matrices, element wise. O(m + n) time complexity
 
     int i;
     for (i = 0; i < a.num_rows; i++)
@@ -29,7 +36,9 @@ dense_matrix cmatrix_add(dense_matrix a, dense_matrix b)
         int j;
         for (j = 0; j < b.num_cols; j++)
         {
-
+            c.head[i][j] = a.head[i][j] + b.head[i][j];
         }
     }
+
+    return c;
 }

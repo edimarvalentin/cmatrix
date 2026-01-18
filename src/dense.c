@@ -5,7 +5,15 @@
 #include "dense.h"
 #include <stdlib.h>
 
-
+/**
+ * @brief Creates and returns a num_rows x num_cols dense matrix in memory.
+ * @param num_rows number of rows
+ * @param num_cols number of columns
+ *
+ * @return dense_matrix The constructed dense matrix structure containing:
+ *                      - Number of rows and columns.
+ *                      - A pointer to the allocated two-dimensional array.
+ */
 dense_matrix cmatrix_dense_from_dim(int num_rows, int num_cols)
 {
     double** rows = malloc(sizeof(double*) * num_rows);

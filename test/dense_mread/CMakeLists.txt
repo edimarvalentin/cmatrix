@@ -22,3 +22,4 @@ configure_file(
 )
 
 add_test(NAME test_dense_mread COMMAND test_dense_mread)
+

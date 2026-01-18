@@ -7,6 +7,7 @@
 
 #include "dense.h"
 #include "sparse.h"
+#include "add.h"
 // SPARSE MATRIX OPERATIONS
 
 
