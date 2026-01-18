@@ -87,7 +87,7 @@ int main() {
             exit(1);
         }
 
-        dense_matrix matrix = cmatrix_dense(input_file);
+        dense_matrix matrix = cmatrix_dense_from_file(input_file);
 
         rewind(input_file);
         compare(matrix, input_file);
